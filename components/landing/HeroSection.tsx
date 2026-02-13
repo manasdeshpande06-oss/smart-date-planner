@@ -1,40 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 
 export const HeroSection: React.FC = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const heroElement = document.getElementById('hero');
-      if (heroElement) {
-        const { top, height } = heroElement.getBoundingClientRect();
-        const progress = Math.max(0, Math.min(1, (height - top) / height));
-        setScrollProgress(progress);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const backgroundColor = scrollProgress;
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-romantic-light via-romantic-light to-secondary pt-20"
+      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-white via-white to-secondary pt-20"
     >
       {/* Decorative background gradient */}
       <div
-        className="absolute inset-0 opacity-30 transition-all duration-300"
-        style={{
-          background: `linear-gradient(135deg, #FFE5E8 0%, #F8D7DB ${
-            backgroundColor * 50
-          }%, #E8B3C0 ${backgroundColor * 100}%)`,
-        }}
+        className="absolute inset-0 opacity-20 transition-all duration-300 bg-gradient-to-br from-romantic-pink via-white to-accent/10"
       />
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">

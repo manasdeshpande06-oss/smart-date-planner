@@ -109,6 +109,3 @@ export const ScrollSection: React.FC = () => {
     </section>
   );
 };
-
-// Helper component for intersection observer (Framer Motion has issues with this, so using react-intersection-observer)
-import React from 'react';

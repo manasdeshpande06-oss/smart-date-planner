@@ -44,6 +44,9 @@ const config: Config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        'romantic-light': 'hsl(0 0% 100%)',
+        'romantic-red': 'hsl(356 76% 33%)',
+        'romantic-pink': 'hsl(350 95% 93%)',
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
