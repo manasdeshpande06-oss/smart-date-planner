@@ -1,19 +1,59 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RedEnvelope } from './RedEnvelope';
 import { QuizForm } from './QuizForm';
 
 export const QuizSection: React.FC = () => {
+  const [balloons, setBalloons] = useState<{ id: number; left: number; delay: number; duration: number }[]>([]);
+
+  useEffect(() => {
+    const newBalloons = Array.from({ length: 12 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: Math.random() * 10 + 15,
+    }));
+    setBalloons(newBalloons);
+  }, []);
   return (
     <section
       id="quiz"
-      className="relative min-h-screen w-full bg-gradient-to-b from-romantic-light via-secondary to-romantic-light px-6 py-20 flex items-center"
+      className="relative min-h-screen w-full px-6 py-20 flex items-center"
+      style={{
+        backgroundImage: 'url(/quiz-background.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#f9f0f0', // Fallback color
+      }}
     >
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+      {/* Overlay for better readability */}
+      <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px]" />
+
+      {/* Floating balloons */}
+      {balloons.map((balloon) => (
+        <motion.div
+          key={balloon.id}
+          className="absolute text-4xl pointer-events-none opacity-60"
+          style={{ left: `${balloon.left}%`, bottom: '-10%' }}
+          initial={{ y: 0, opacity: 0 }}
+          animate={{
+            y: '-120vh',
+            opacity: [0, 0.8, 0],
+            x: [0, 30, -30, 0],
+          }}
+          transition={{
+            duration: balloon.duration,
+            repeat: Infinity,
+            delay: balloon.delay,
+            ease: 'linear',
+          }}
+        >
+          🎈
+        </motion.div>
+      ))}
 
       <div className="relative z-10 w-full max-w-4xl mx-auto">
         {/* Heading */}

@@ -1,18 +1,34 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export const HeroSection: React.FC = () => {
+  const [hearts, setHearts] = useState<{ id: number; left: number; delay: number; duration: number }[]>([]);
+
+  useEffect(() => {
+    const newHearts = Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: Math.random() * 10 + 10,
+    }));
+    setHearts(newHearts);
+  }, []);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-white via-white to-secondary pt-20"
+      className="relative min-h-screen w-full overflow-hidden pt-20"
+      style={{
+        backgroundImage: 'url(/hero-background.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
     >
-      {/* Decorative background gradient */}
-      <div
-        className="absolute inset-0 opacity-20 transition-all duration-300 bg-gradient-to-br from-romantic-pink via-white to-accent/10"
-      />
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]" />
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
         {/* Main heading */}
@@ -52,35 +68,27 @@ export const HeroSection: React.FC = () => {
         </motion.div>
 
         {/* Floating hearts decoration */}
-        <motion.div
-          className="absolute bottom-32 left-10 text-4xl"
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: 0,
-          }}
-        >
-          💕
-        </motion.div>
-
-        <motion.div
-          className="absolute bottom-20 right-12 text-3xl"
-          animate={{
-            y: [0, -15, 0],
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{
-            duration: 3.5,
-            repeat: Infinity,
-            delay: 0.5,
-          }}
-        >
-          💖
-        </motion.div>
+        {hearts.map((heart) => (
+          <motion.div
+            key={heart.id}
+            className="absolute text-3xl md:text-5xl pointer-events-none"
+            style={{ left: `${heart.left}%`, bottom: '-10%' }}
+            initial={{ y: 0, opacity: 0 }}
+            animate={{
+              y: '-120vh',
+              opacity: [0, 0.6, 0],
+              rotate: [0, 20, -20, 0],
+            }}
+            transition={{
+              duration: heart.duration,
+              repeat: Infinity,
+              delay: heart.delay,
+              ease: 'linear',
+            }}
+          >
+            {heart.id % 2 === 0 ? '💕' : '💖'}
+          </motion.div>
+        ))}
 
         {/* Scroll indicator */}
         <motion.div

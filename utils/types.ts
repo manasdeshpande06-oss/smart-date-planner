@@ -13,6 +13,10 @@ export interface DatePlan {
   description: string;
   location: string;
   image?: string;
+  tips: string[];
+  cost: string;
+  dressCode: string;
+  categories: string[];
 }
 
 export interface QuizContextType {

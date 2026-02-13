@@ -36,8 +36,19 @@ export const ResultsPage: React.FC = () => {
       <LoadingScreen isVisible={isLoading} />
 
       {showResults && (
-        <section className="min-h-screen w-full bg-gradient-to-b from-secondary via-romantic-light to-secondary px-6 py-20">
-          <div className="max-w-6xl mx-auto">
+        <section
+          className="relative min-h-screen w-full px-6 py-20"
+          style={{
+            backgroundImage: 'url(/results-background.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#fce4ec', // Fallback color
+          }}
+        >
+          {/* Overlay for better card visibility */}
+          <div className="absolute inset-0 bg-white/25" />
+          <div className="relative z-10 max-w-6xl mx-auto">
             {/* Header */}
             <motion.div
               className="text-center mb-16"
@@ -96,9 +107,8 @@ export const ResultsPage: React.FC = () => {
                         strokeDashoffset: `${2 * Math.PI * 90}`,
                       }}
                       animate={{
-                        strokeDashoffset: `${
-                          2 * Math.PI * 90 * (1 - displayScore / 100)
-                        }`,
+                        strokeDashoffset: `${2 * Math.PI * 90 * (1 - displayScore / 100)
+                          }`,
                       }}
                       transition={{ duration: 2, ease: 'easeOut' }}
                       strokeLinecap="round"
@@ -183,7 +193,7 @@ export const ResultsPage: React.FC = () => {
                 Your Personalized Date Ideas
               </motion.h2>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {datePlans.map((plan, index) => (
                   <DatePlanCard key={plan.id} plan={plan} index={index} />
                 ))}
