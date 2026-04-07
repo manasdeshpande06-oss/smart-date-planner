@@ -24,16 +24,27 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const submitQuiz = async () => {
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    
+    try {
+      const res = await fetch('/api/activities');
+      if (!res.ok) {
+        throw new Error('Failed to fetch date plans from MongoDB');
+      }
+      
+      const dbPlans = await res.json();
 
-    const score = calculateCompatibilityScore(answers);
-    const plans = generateDatePlans(answers);
+      const score = calculateCompatibilityScore(answers);
+      const plans = generateDatePlans(answers, dbPlans);
 
-    setCompatibilityScore(score);
-    setDatePlans(plans);
-    setCurrentStep(3); // Go to results page
-    setIsLoading(false);
+      setCompatibilityScore(score);
+      setDatePlans(plans as any);
+      setCurrentStep(3); // Go to results page
+    } catch (e) {
+      console.error(e);
+      alert('There was an error accessing the database. Ensure MongoDB is running and populated.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const reset = () => {
